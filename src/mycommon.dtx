@@ -1,0 +1,110 @@
+% \iffalse -*- time-stamp-line-limit: 20 ; time-stamp-start: "^\\\\ProvidesPackage\{.*\}\\["; time-stamp-end: "\\ .*\\]"; time-stamp-format: "%:y/%02m/%02d" -*- \fi
+% \renewcommand{\group}{mycommon package}
+% \section{\textsf{mycommon} package}
+%
+% A \LaTeX{} style file with some simple helper commands.
+%
+%
+% \subsection{Usage}
+%
+% \begin{example}
+%   `\cs{usepackage}\oarg{options, \ldots}\{mycommon\}'
+% \end{example}
+%
+% \iffalse
+%<*mycommon>
+\ProvidesPackage{mycommon}[2018/04/09 Basic class style settings, used by all my* classes]
+\RequirePackage{etoolbox}
+\RequirePackage{xkeyval}
+% \fi
+%
+%
+% \subsection{Package options}
+%
+% \DescribeOption{notodo}
+% Hides the output of the \cs{TODO} macro.
+% \iffalse
+\newbool{@notodo}
+\DeclareOptionX[mycommon]{notodo}{%
+  \booltrue{@notodo}
+}
+% \fi
+%
+% \DescribeOption{nonames}
+% Hides the output of the \cs{name} macro.
+% \iffalse
+\newbool{@nonames}
+\DeclareOptionX[mycommon]{nonames}{%
+  \booltrue{@nonames}
+}
+% \fi
+%
+% \DescribeOption{final}
+% Equivalent to passing \texttt{notodo} and \texttt{nonames}.
+% \iffalse
+\DeclareOptionX[mycommon]{final}{%
+  \booltrue{@notodo}
+  \booltrue{@nonames}
+}
+\ProcessOptionsX*[mycommon]
+% \fi
+%
+%
+% \subsection{User macros}
+%
+% \begin{command}
+%   `\cs{TODO}\marg{text}'
+% \end{command}
+% \DescribeMacro{TODO}
+% Adds a visible TODO note.
+%
+% \iffalse
+\ifbool{@notodo}{
+  \newcommand{\TODO}[1]{}
+}{
+  \newcommand{\TODO}[1]{\textcolor{red}{\textbf{TODO}: #1}}
+}
+% \fi
+%
+%
+% \begin{command}
+%   `\cs{newname}\marg{name}\marg{color}'
+% \end{command}
+% \DescribeMacro{newname}
+% Creates a \cs{name}\marg{text} command to distinguish comments from different
+% people. It is akin to \cs{TODO} above, but using different colors to easily
+% distinguish different names.
+%
+% It is recommended to use package \texttt{xcolor} to set the colors by name in \cs{newname}.
+%
+% \iffalse
+\ifbool{@nonames}{
+  \newcommand{\newname}[2]{\expandafter\def\csname#1\endcsname##1{}}
+}{
+  \newcommand{\newname}[2]{\expandafter\def\csname#1\endcsname##1{{\color{#2}\small[#1: ##1]}}}
+}
+% \fi
+%
+%
+% \begin{command}
+%   `\cs{eg}'
+%   `\cs{ie}'
+%   `\cs{etal}'
+%   `\cs{etc}'
+% \end{command}
+% \DescribeMacro{eg}
+% \DescribeMacro{ie}
+% \DescribeMacro{etal}
+% \DescribeMacro{etc}
+% Simple macros to safely write \texttt{e.g.,\xspace}, \texttt{i.e.,\xspace},
+% \texttt{et al.\xspace} and \texttt{etc.\@\xspace} conforming to \LaTeX{} spacing
+% style guidelines.
+%
+% \iffalse
+\RequirePackage{xspace}    % Punctuation-aware spacing for text-inserting macros
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etal}{et al.\xspace}
+\newcommand{\etc}{etc.\@\xspace}
+%</mycommon>
+% \fi

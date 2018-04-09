@@ -1,0 +1,50 @@
+# -*- makefile-gmake -*-
+
+# After running "make" for the first time, look at ".deps/latexbuild/Makefile"
+# for documentation about how to use and configure the build system.
+
+# Path to local .cls and .sty files
+TEXINPUTS = tex/:.deps/latex-templates/tex
+
+# What documents to build by default
+DOCUMENTS = document.pdf
+
+# Show top-level executed commands
+# LATEXBUILD_ARGS = --verbose-cmds
+
+
+##################################################
+# Include makefile for build subsystem. Download a fresh copy if it's not there.
+# WARNING: Do not remove; this must come as the first rule.
+all::
+ifeq ($(wildcard .deps/latexbuild/Makefile),)
+%::
+	@echo Downloading 'latexbuild'...
+	@rm -Rf .deps/latexbuild
+	@git clone https://github.com/llvilanova/latexbuild.git .deps/latexbuild
+	@# Re-run to get proper target rule definition
+	@$(MAKE) $@
+else
+include .deps/latexbuild/Makefile
+endif
+# Include makefile for template subsystem. Download a fresh copy if it's not there.
+ifeq ($(wildcard .deps/latex-templates/Makefile),)
+%::
+	@echo Downloading 'latex-templates'...
+	@rm -Rf .deps/latex-templates
+	@git clone https://github.com/llvilanova/latex-templates.git .deps/latex-templates
+	@# Re-run to get proper target rule definition
+	@$(MAKE) $@
+else
+include .deps/latex-templates/Makefile
+endif
+
+
+##################################################
+# Your own code and rules
+
+all:: $(DOCUMENTS)
+
+# New rule that also removes the generated documents
+distclean: clean
+	rm -f $(DOCUMENTS) $(foreach doc,$(DOCUMENTS),$(basename $(doc)).synctex.gz)

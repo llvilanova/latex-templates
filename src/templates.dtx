@@ -1,0 +1,129 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2009-2018  by Lluís Vilanova
+%
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.2 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%    http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+%
+% \fi
+%
+% \iffalse
+%<all>\NeedsTeXFormat{LaTeX2e}
+%
+%<*driver>
+
+% rubber: module makeidx
+% rubber: makeidx.style gind.ist
+
+\documentclass{ltxdoc}
+\usepackage[hyperindex,colorlinks=true,bookmarks]{hyperref}
+\usepackage{xspace}
+
+%\EnableCrossrefs
+\CodelineIndex
+%\RecordChanges
+\OnlyDescription
+
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{listings}
+\lstnewenvironment{command}{%
+  \lstset{columns=flexible,frame=single,backgroundcolor=\color{blue!20},%
+    xleftmargin=\fboxsep,xrightmargin=\fboxsep,belowskip=-2pt,escapeinside=`',gobble=1}}{}
+\lstnewenvironment{example}{%
+  \lstset{columns=flexible,frame=single,backgroundcolor=\color{yellow!20},%
+    xleftmargin=\fboxsep,xrightmargin=\fboxsep,escapeinside=`',gobble=1,
+    basicstyle=\footnotesize\ttfamily}}{}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{\medskipamount}
+
+\newcommand{\group}{none}
+
+
+\makeatletter
+% footbib.dtx
+% thumb.dtx
+% simplecv.dtx
+
+\def\SpecialUsageIndex#1{\@bsphack
+  %{\let\special@index\index\SpecialIndex@{#1}{}}%
+  \index{#1\actualchar{\protect\ttfamily \cs #1}}%
+  \index{\group:\levelchar{\protect\ttfamily{\cs #1}}}
+  \@esphack}
+\def\DescribeMacro{\leavevmode\@bsphack
+  \begingroup\MakePrivateLetters\Describe@Macro}
+\def\Describe@Macro#1{\endgroup
+  \marginpar{\raggedleft\PrintDescribeMacro{ \cs#1}}%
+  \SpecialUsageIndex{#1}\@esphack\ignorespaces}
+
+\def\SpecialOptionIndex#1{\@bsphack
+  \index{#1\actualchar{\protect\ttfamily#1} (option)}%
+  \index{\group:\levelchar{\protect\ttfamily#1} (opt)}
+  \@esphack}
+  %\index{#1\actualchar{\protect\ttfamily#1}
+  %  (option)\encapchar usage}%
+  %\index{options:\levelchar{\protect\ttfamily#1}\encapchar
+  %  usage}\@esphack}
+\def\DescribeOption{\leavevmode\@bsphack
+  \begingroup\MakePrivateLetters\Describe@Option}
+\def\Describe@Option#1{\endgroup
+  \marginpar{\raggedleft\PrintDescribeEnv{#1}}%
+  \SpecialOptionIndex{#1}\@esphack\ignorespaces}
+\def\DescribeOptionV{\leavevmode\@bsphack\begingroup\MakePrivateLetters
+  \Describe@OptionV}
+\def\Describe@OptionV#1#2{\endgroup
+  \marginpar{\raggedleft\PrintDescribeEnv{#1=#2}}%
+  \SpecialOptionIndex{#1}\@esphack\ignorespaces}
+
+\def\SpecialEnvIndex#1{\@bsphack
+  \index{#1\actualchar{\protect\ttfamily#1} (environment)}%
+  \index{\group:\levelchar{\protect\ttfamily#1} (env)}
+  \@esphack}
+\def\DescribeEnv{\leavevmode\@bsphack
+  \begingroup\MakePrivateLetters\Describe@Env}
+\def\Describe@Env#1{\endgroup
+  \marginpar{\raggedleft\PrintDescribeEnv{#1}}%
+  \SpecialEnvIndex{#1}\@esphack\ignorespaces}
+\makeatother
+
+
+\let\origPrintIndex=\PrintIndex \let\PrintIndex=\relax
+
+
+\title{The \textsf{templates} class set}
+\author{Llu\'is Vilanova \\ \texttt{llvilanovag AT gmail.com}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  Some simple classes and style files to avoid some boilerplate \LaTeX{} code.
+\end{abstract}
+
+To use the classes and style files provided here, you must add the
+\texttt{templates/tex} directory provided here to the \texttt{TEXINPUTS}
+environment variable.
+
+
+\DocInput{src/mycommon.dtx}
+
+\Finale
+\origPrintIndex
+\PrintChanges
+
+\end{document}
+%</driver>
+%
+% \fi
+\endinput
